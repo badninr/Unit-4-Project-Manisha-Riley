@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 public class ZombieGame {
     private int brainCount;
@@ -13,9 +13,13 @@ public class ZombieGame {
         for (int i=1; i<=13; i++)
             colors.add(i);
 
+        Collections.shuffle(colors);
+
         int colorSelection = (int) Math.random()*13 + 1;
 
         colors.remove(colorSelection);
+
+
 
     }
 }
