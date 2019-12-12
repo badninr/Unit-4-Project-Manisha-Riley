@@ -3,9 +3,14 @@ public class ZombieDie {
     private int color;
     private String sideName = "";
 
-    public ZombieDie(int colorNum){
-        color = colorNum;
+    public ZombieDie(){
         side = (int) ((Math.random() * 6) + 1);
+        color = 0;
+        sideName = "";
+    }
+
+    public String getSideName(){
+        return sideName;
     }
 
     public String getSide(){
@@ -51,4 +56,12 @@ public class ZombieDie {
         }
         return sideName;
     }
+
+    public String toString(){
+        String result = "Color: " + color;
+        return result;
+    }
 }
+
+
+
