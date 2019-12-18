@@ -17,6 +17,8 @@ public class ZombieDie {
         return sideName;
     }
 
+    public int getColor() { return color; }
+
     public void setColor(int colorInput){
         color = colorInput;
     }
