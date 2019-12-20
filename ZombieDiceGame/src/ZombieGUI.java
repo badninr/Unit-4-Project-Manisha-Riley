@@ -35,6 +35,7 @@ public class ZombieGUI extends GridPane {
     private Label winText;
     private Label remainingDiceLabel;
     private Label playerLabel;
+    private Label shotgunLabel;
 
 
 
@@ -144,6 +145,11 @@ public class ZombieGUI extends GridPane {
         GridPane.setHalignment(playerLabel, HPos.CENTER);
         playerLabel.setTextFill(Color.WHITE);
 
+        shotgunLabel = new Label("");
+        shotgunLabel.setFont(font);
+        GridPane.setHalignment(shotgunLabel, HPos.CENTER);
+        shotgunLabel.setTextFill(Color.WHITE);
+
 
 
         //Sets buttons
@@ -197,6 +203,7 @@ public class ZombieGUI extends GridPane {
         add(currentImage3,9,5,2,2);
         add(remainingDiceLabel, 5, 11, 4,1 );
         add(playerLabel,5,1,4,1);
+        add(shotgunLabel,0,13,14,1);
         addUpcomingDice();
         addCurrentDice();
     //
@@ -412,6 +419,7 @@ public class ZombieGUI extends GridPane {
     //Runs a turn, updates all images, labels, and values
     private void roll(ActionEvent event) {
         if (isP1Turn) {
+            shotgunLabel.setText("");
             currentImage1.setVisible(true);
             currentImage2.setVisible(true);
             currentImage3.setVisible(true);
@@ -425,6 +433,7 @@ public class ZombieGUI extends GridPane {
                 winText.setText("");
                 rollBtn.setVisible(true);
                 player2.resetList();
+                shotgunLabel.setText("You got 3 shotguns. Your brain score was emptied, and the turn was switched.");
             }
             setLabels();
             checkPlayerWin();
@@ -436,6 +445,7 @@ public class ZombieGUI extends GridPane {
                 rollBtn.setVisible(false);
             }
         } else {
+            shotgunLabel.setText("");
             currentImage1.setVisible(true);
             currentImage2.setVisible(true);
             currentImage3.setVisible(true);
@@ -449,6 +459,7 @@ public class ZombieGUI extends GridPane {
                 rollBtn.setVisible(true);
                 player1.resetList();
                 setLabels();
+                shotgunLabel.setText("You got 3 shotguns. Your brain score was emptied, and the turn was switched.");
             }
             addUpcomingDice();
             addCurrentDice();
