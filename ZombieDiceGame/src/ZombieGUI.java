@@ -1,28 +1,31 @@
+//Imports
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.control.Button;
-import javafx.scene.text.*;
 import javafx.scene.image.Image;
-import java.util.*;
 
-import java.awt.*;
 
 
 public class ZombieGUI extends GridPane {
+
     //Players
     ZombieGame player1 = new ZombieGame();
     ZombieGame player2 = new ZombieGame();
 
+
+
+    //Keeps track of who's turn it is
     private boolean isP1Turn = true;
 
+
+
+    //Labels
     private Label p1TotalScoreLabel;
     private Label p1BrainCountLabel;
     private Label p1ShotgunCountLabel;
@@ -30,9 +33,18 @@ public class ZombieGUI extends GridPane {
     private Label p2BrainCountLabel;
     private Label p2ShotgunCountLabel;
     private Label winText;
+    private Label remainingDiceLabel;
+    private Label playerLabel;
 
 
 
+    //Buttons
+    private Button rollBtn;
+    private Button passBtn;
+
+
+
+    //ImageViews (holds images)
     private ImageView imageBlank1 = new ImageView();
     private ImageView imageBlank2 = new ImageView();
     private ImageView imageBlank3 = new ImageView();
@@ -46,6 +58,7 @@ public class ZombieGUI extends GridPane {
     private ImageView currentImage1 = new ImageView();
     private ImageView currentImage2 = new ImageView();
     private ImageView currentImage3 = new ImageView();
+
 
 
     //Images
@@ -63,13 +76,16 @@ public class ZombieGUI extends GridPane {
     private Image greenBrainDie = new Image("greenDieBrain.png",60,60,false,false);
 
 
+
+    //Constructor
     public ZombieGUI() {
         Font font = new Font(12);
-        Font titleFont = new Font(30);
+        Font titleFont = new Font(25);
 
-        //labels
+
+        //Sets up labels
         Label titleLabel = new Label("Zombie Dice");
-        titleLabel.setFont(font);
+        titleLabel.setFont(titleFont);
         GridPane.setHalignment (titleLabel, HPos.CENTER);
         titleLabel.setTextFill(Color.WHITE);
 
@@ -78,17 +94,17 @@ public class ZombieGUI extends GridPane {
         GridPane.setHalignment (p1Label, HPos.LEFT);
         p1Label.setTextFill(Color.WHITE);
 
-        p1TotalScoreLabel = new Label("Total Score: ");
+        p1TotalScoreLabel = new Label("Total Score: 0");
         p1TotalScoreLabel.setFont(font);
         GridPane.setHalignment (p1TotalScoreLabel, HPos.LEFT);
         p1TotalScoreLabel.setTextFill(Color.WHITE);
 
-        p1BrainCountLabel = new Label("Brain Count: ");
+        p1BrainCountLabel = new Label("Brain Count: 0");
         p1BrainCountLabel.setFont(font);
         GridPane.setHalignment (p1BrainCountLabel, HPos.LEFT);
         p1BrainCountLabel.setTextFill(Color.WHITE);
 
-        p1ShotgunCountLabel = new Label("Shotgun Count: ");
+        p1ShotgunCountLabel = new Label("Shotgun Count: 0");
         p1ShotgunCountLabel.setFont(font);
         GridPane.setHalignment (p1ShotgunCountLabel, HPos.LEFT);
         p1ShotgunCountLabel.setTextFill(Color.WHITE);
@@ -98,80 +114,100 @@ public class ZombieGUI extends GridPane {
         GridPane.setHalignment (p2Label, HPos.RIGHT);
         p2Label.setTextFill(Color.WHITE);
 
-        p2TotalScoreLabel = new Label("Total Score: ");
+        p2TotalScoreLabel = new Label("Total Score: 0");
         p2TotalScoreLabel.setFont(font);
         GridPane.setHalignment (p2TotalScoreLabel, HPos.RIGHT);
         p2TotalScoreLabel.setTextFill(Color.WHITE);
 
-        p2BrainCountLabel = new Label("Brain Count: ");
+        p2BrainCountLabel = new Label("Brain Count: 0");
         p2BrainCountLabel.setFont(font);
         GridPane.setHalignment (p2BrainCountLabel, HPos.RIGHT);
         p2BrainCountLabel.setTextFill(Color.WHITE);
 
-        p2ShotgunCountLabel = new Label("Shotgun Count: ");
+        p2ShotgunCountLabel = new Label("Shotgun Count: 0");
         p2ShotgunCountLabel.setFont(font);
         GridPane.setHalignment (p2ShotgunCountLabel, HPos.RIGHT);
         p2ShotgunCountLabel.setTextFill(Color.WHITE);
 
-        winText = new Label("*will be win label*");
+        winText = new Label("");
         winText.setFont(font);
         GridPane.setHalignment(winText, HPos.CENTER);
         winText.setTextFill(Color.WHITE);
 
+        remainingDiceLabel = new Label("Remaining Dice: 10");
+        remainingDiceLabel.setFont(font);
+        GridPane.setHalignment(remainingDiceLabel, HPos.CENTER);
+        remainingDiceLabel.setTextFill(Color.WHITE);
 
-        //buttons
-        Button rollBtn = new Button("Roll");
+        playerLabel = new Label("Player 1's turn");
+        playerLabel.setFont(font);
+        GridPane.setHalignment(playerLabel, HPos.CENTER);
+        playerLabel.setTextFill(Color.WHITE);
+
+
+
+        //Sets buttons
+        rollBtn = new Button("Roll");
         rollBtn.setFont(font);
         rollBtn.setPrefWidth(50);
         rollBtn.setAlignment(Pos.CENTER);
         rollBtn.setOnAction(this::roll);
 
-        Button passBtn = new Button("Pass");
+        passBtn = new Button("Pass");
         passBtn.setFont(font);
         passBtn.setPrefWidth(50);
         passBtn.setAlignment(Pos.CENTER);
         passBtn.setOnAction(this::pass);
 
 
-        //making screen pretty
+
+        //Making screen pretty
         setAlignment(Pos.CENTER);
-        setHgap(20);
-        setVgap(10);
+        setHgap(40);
+        setVgap(20);
         setStyle("-fx-background-color: #013220");
 
 
 
         //Adding everything
-        add(titleLabel,4,0,5,1);
-        add(p1Label,0,1,3,1);
-        add(p1TotalScoreLabel,0,2,3,1);
-        add(p1BrainCountLabel,0,3,3,1);
-        add(p1ShotgunCountLabel,0,4,3,1);
-        add(p2Label,9,1,3,1);
-        add(p2TotalScoreLabel,9,2,3,1);
-        add(p2BrainCountLabel,9,3,3,1);
-        add(p2ShotgunCountLabel,9,4,3,1);
-        add(winText,4,12,4,1);
-        add(rollBtn,2,10,2,1);
-        add(passBtn, 8,10,2,1);
-        add(imageBlank1, 1, 8);
-        add(imageBlank2, 2, 8);
-        add(imageBlank3, 3, 8);
-        add(imageBlank4, 4, 8);
-        add(imageBlank5, 5, 8);
-        add(imageBlank6, 6, 8);
-        add(imageBlank7, 7, 8);
-        add(imageBlank8, 8, 8);
-        add(imageBlank9, 9, 8);
-        add(imageBlank10, 10, 8);
-        add(currentImage1,2,5,2,2);
-        add(currentImage2,5,5,2,2);
-        add(currentImage3,8,5,2,2);
+        add(titleLabel,0,0,14,1);
+        add(p1Label,1,1,3,1);
+        add(p1TotalScoreLabel,1,2,3,1);
+        add(p1BrainCountLabel,1,3,3,1);
+        add(p1ShotgunCountLabel,1,4,3,1);
+        add(p2Label,10,1,3,1);
+        add(p2TotalScoreLabel,10,2,3,1);
+        add(p2BrainCountLabel,10,3,3,1);
+        add(p2ShotgunCountLabel,10,4,3,1);
+        add(winText,5,12,5,1);
+        add(rollBtn,3,10,2,1);
+        add(passBtn, 9,10,2,1);
+        add(imageBlank1, 2, 8);
+        add(imageBlank2, 3, 8);
+        add(imageBlank3, 4, 8);
+        add(imageBlank4, 5, 8);
+        add(imageBlank5, 6, 8);
+        add(imageBlank6, 7, 8);
+        add(imageBlank7, 8, 8);
+        add(imageBlank8, 9, 8);
+        add(imageBlank9, 10, 8);
+        add(imageBlank10, 11, 8);
+        add(currentImage1,3,5,2,2);
+        add(currentImage2,6,5,2,2);
+        add(currentImage3,9,5,2,2);
+        add(remainingDiceLabel, 5, 11, 4,1 );
+        add(playerLabel,5,1,4,1);
         addUpcomingDice();
         addCurrentDice();
     //
     }
 
+
+    //Methods-----------------------------------------------------------------------------------------------------------
+
+
+
+    //Tells addUpcomingDice what image slot to use
     public ImageView selectCurrentImage(int num) {
         if (num == 0) {
             return imageBlank1;
@@ -196,6 +232,10 @@ public class ZombieGUI extends GridPane {
         }
     }
 
+
+
+
+    //Tells addCurrentDice what image slot to use
     public ImageView selectCurrentBigImage(int num) {
         if (num == 0) {
             return currentImage1;
@@ -208,60 +248,79 @@ public class ZombieGUI extends GridPane {
 
 
 
+
+    //Updates the 3 main dice images based on color/side
     public void addCurrentDice(){
+        for (int i = 0; i < 3; i++){
+            selectCurrentBigImage(i).setImage(null);
+        }
         if (isP1Turn) {
             for (int i = 0; i < 3; i++) {
+                int currentSideName = player1.getCurrentSideName(i);
                 if (player1.findCurrentDiceColor(i) == 1) {
-                    if (player1.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(redShotgunDie);
-                    } else if (player1.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(redFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(redBrainDie);
                     }
-                } else if (player1.findCurrentDiceColor(i)  == 2) {
-                    if (player1.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(redFootprintDie);
+                    }
+                } else if (player1.findCurrentDiceColor(i) == 2) {
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(yellowShotgunDie);
-                    } else if (player1.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(yellowFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(yellowBrainDie);
                     }
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(yellowFootprintDie);
+                    }
                 } else {
-                    if (player1.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(greenShotgunDie);
-                    } else if (player1.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(greenFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(greenBrainDie);
+                    }
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(greenFootprintDie);
                     }
                 }
             }
         } else {
             for (int i = 0; i < 3; i++) {
+                int currentSideName = player2.getCurrentSideName(i);
                 if (player2.findCurrentDiceColor(i) == 1) {
-                    if (player2.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(redShotgunDie);
-                    } else if (player2.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(redFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(redBrainDie);
                     }
-                } else if (player2.findCurrentDiceColor(i)  == 2) {
-                    if (player2.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(redFootprintDie);
+                    }
+                } else if (player2.findCurrentDiceColor(i) == 2) {
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(yellowShotgunDie);
-                    } else if (player2.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(yellowFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(yellowBrainDie);
                     }
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(yellowFootprintDie);
+                    }
                 } else {
-                    if (player2.findDiceSideName(i).equals("shotgun")){
+                    if (currentSideName == 1 ){
                         selectCurrentBigImage(i).setImage(greenShotgunDie);
-                    } else if (player2.findDiceSideName(i).equals("footprint")){
-                        selectCurrentBigImage(i).setImage(greenFootprintDie);
-                    } else {
+                    }
+                    if (currentSideName == 2 ){
                         selectCurrentBigImage(i).setImage(greenBrainDie);
+                    }
+                    if (currentSideName == 3) {
+                        selectCurrentBigImage(i).setImage(greenFootprintDie);
                     }
                 }
             }
@@ -269,8 +328,14 @@ public class ZombieGUI extends GridPane {
     }
 
 
+
+    //Updates small dice upcoming based on their color
     public void addUpcomingDice(){
+        for (int i = 0; i < 10; i++){
+            selectCurrentImage(i).setImage(null);
+        }
         if (isP1Turn) {
+
             for (int i = 0; i < player1.getDiceListLength(); i++) {
                 if (player1.findDiceColor(i) == 1) {
                     selectCurrentImage(i).setImage(redDie);
@@ -294,18 +359,38 @@ public class ZombieGUI extends GridPane {
         }
     }
 
+
+
+    //Switches player, resets labels and images
     private void pass(ActionEvent event) {
+
         if (isP1Turn){
             isP1Turn = false;
-            addCurrentDice();
-            addUpcomingDice();
+            player1.setTotalScore();
+            setLabels();
+            winText.setText("");
+            rollBtn.setVisible(true);
+            player2.resetList();
+
         } else {
             isP1Turn = true;
-            addCurrentDice();
-            addUpcomingDice();
+            player2.setTotalScore();
+            winText.setText("");
+            rollBtn.setVisible(true);
+            player1.resetList();
+            setLabels();
         }
+        checkPlayerWin();
+        addCurrentDice();
+        addUpcomingDice();
+        currentImage1.setVisible(false);
+        currentImage2.setVisible(false);
+        currentImage3.setVisible(false);
     }
 
+
+
+    //Resets the labels to current values
     private void setLabels(){
         p1TotalScoreLabel.setText("Total Score: " + player1.getTotalScore());
         p1BrainCountLabel.setText("Brain Count: " + player1.getBrainCount());
@@ -313,20 +398,91 @@ public class ZombieGUI extends GridPane {
         p2TotalScoreLabel.setText("Total Score: " + player2.getTotalScore());
         p2BrainCountLabel.setText("Brain Count: " + player2.getBrainCount());
         p2ShotgunCountLabel.setText("Shotgun Count: " + player2.getShotgunCount());
+        if (isP1Turn) {
+            remainingDiceLabel.setText("Remaining Dice: " + player1.getDiceListLength());
+            playerLabel.setText("Player 1's turn");
+        } else {
+            remainingDiceLabel.setText("Remaining Dice: " + player2.getDiceListLength());
+            playerLabel.setText("Player 2's turn");
+        }
     }
 
+
+
+    //Runs a turn, updates all images, labels, and values
     private void roll(ActionEvent event) {
         if (isP1Turn) {
+            currentImage1.setVisible(true);
+            currentImage2.setVisible(true);
+            currentImage3.setVisible(true);
             player1.turn();
+            if (player1.checkShotgunCount()){
+                isP1Turn = false;
+                addCurrentDice();
+                addUpcomingDice();
+                player1.setTotalScore();
+                setLabels();
+                winText.setText("");
+                rollBtn.setVisible(true);
+                player2.resetList();
+            }
+            setLabels();
+            checkPlayerWin();
             addUpcomingDice();
             addCurrentDice();
-            setLabels();
-
+            player1.replaceDice();
+            if (player1.getDiceListLength() == 0){
+                winText.setText("You are out of dice. Pass.");
+                rollBtn.setVisible(false);
+            }
         } else {
+            currentImage1.setVisible(true);
+            currentImage2.setVisible(true);
+            currentImage3.setVisible(true);
             player2.turn();
+            if (player2.checkShotgunCount()){
+                isP1Turn = true;
+                addCurrentDice();
+                addUpcomingDice();
+                player2.setTotalScore();
+                winText.setText("");
+                rollBtn.setVisible(true);
+                player1.resetList();
+                setLabels();
+            }
             addUpcomingDice();
             addCurrentDice();
             setLabels();
+            checkPlayerWin();
+            player2.replaceDice();
+            if (player2.getDiceListLength() == 0){
+                winText.setText("You are out of dice. Pass.");
+                rollBtn.setVisible(false);
+            }
+        }
+
+    }
+
+
+
+    //Checks for a player win and updates labels respectively
+    public void checkPlayerWin(){
+        if (player1.checkWin()){
+            System.out.println("Player 1 wins");
+                winText.setText("Player 1 wins!");
+                rollBtn.setVisible(false);
+                passBtn.setVisible(false);
+                playerLabel.setText("");
+                remainingDiceLabel.setText("");
+        } else if (player2.checkWin()){
+            System.out.println("Player 2 wins");
+                winText.setText("Player 2 wins!");
+                rollBtn.setVisible(false);
+            passBtn.setVisible(false);
+            playerLabel.setText("");
+            remainingDiceLabel.setText("");
+
+
         }
     }
 
